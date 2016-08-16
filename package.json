@@ -1,0 +1,24 @@
+{
+  "name": "sqs-batch",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/c8management/sqs-batch.git"
+  },
+  "author": "C8Management",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/c8management/sqs-batch/issues"
+  },
+  "homepage": "https://github.com/c8management/sqs-batch#readme",
+  "dependencies": {
+    "aws-sdk": "^2.5.0",
+    "create-error": "^0.3.1",
+    "debug": "^2.2.0"
+  }
+}
