@@ -8,7 +8,7 @@ npm install sqs-buffer
 ```
 
 ## Usage
-```
+```js
 const Receiver = require('sqs-buffer')
 
 const worker = new Receiver({
@@ -84,10 +84,10 @@ Stop message polling
 |Event|Params|Description|
 |-----|------|-----------|
 |`error`|`err`|Fired when a request error occurs|
-|`message:received`|`message`|...|
-|`processing:error`|`err`|...|
-|`message:processed`|`message`|...|
-|`stopped`|None|...|
+|`message:received`|`message`|Fired when new message(s) received|
+|`processing:error`|`err`|Fired when you call `don(error)`|
+|`message:processed`|`message`|Fired when the message(s) is/are processed|
+|`stopped`|None|Fired when receiver is stopped|
 
 
 ## Buffer
