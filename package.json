@@ -1,0 +1,29 @@
+{
+  "name": "sqs-buffer",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/c8management/sqs-buffer.git"
+  },
+  "author": "C8Management",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/c8management/sqs-buffer/issues"
+  },
+  "homepage": "https://github.com/c8management/sqs-buffer#readme",
+  "dependencies": {
+    "aws-sdk": "^2.5.0",
+    "create-error": "^0.3.1",
+    "debug": "^2.2.0",
+    "lodash": "^4.15.0"
+  },
+  "devDependencies": {
+    "code": "^3.0.2",
+    "dotenv": "^2.0.0"
+  }
+}
