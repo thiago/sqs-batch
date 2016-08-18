@@ -7,7 +7,7 @@ const AWS = require('aws-sdk')
 const Code = require('code')
 const expect = Code.expect
 
-const Consumer = require('../lib/consumer')
+const Receiver = require('../lib/receiver')
 
 const SQS = new AWS.SQS({
   region: process.env.AWS_SQS_REGION,
@@ -27,7 +27,7 @@ const DEFAULT_OPTS = {
   queueUrl: process.env.TEST_QUEUE_URL
 }
 
-describe('SQS Consumer', () => {
+describe('SQS Receiver', () => {
   before(() => {
     if (!process.env.TEST_QUEUE_URL ||
         !process.env.AWS_SQS_REGION ||
@@ -41,7 +41,7 @@ describe('SQS Consumer', () => {
   describe('Constructor', () => {
     it('- missing options', () => {
       try {
-        new Consumer()
+        new Receiver()
       } catch (e) {
         expect(e).to.be.an.error(Error, 'Missing required options')
       }
@@ -49,7 +49,7 @@ describe('SQS Consumer', () => {
 
     it('- missing [queueUrl]', () => {
       try {
-        new Consumer({})
+        new Receiver({})
       } catch (e) {
         expect(e).to.be.an.error(Error, /queueUrl/)
       }
@@ -57,7 +57,7 @@ describe('SQS Consumer', () => {
 
     it('- missing [messageReceiver]', () => {
       try {
-        new Consumer({ queueUrl: process.env.TEST_QUEUE_URL })
+        new Receiver({ queueUrl: process.env.TEST_QUEUE_URL })
       } catch (e) {
         expect(e).to.be.an.error(Error, /messageReceiver/)
       }
@@ -84,7 +84,7 @@ describe('SQS Consumer', () => {
       const opts = _.clone(DEFAULT_OPTS)
       opts.messageReceiver = (message, acknowledge) => acknowledge(new Error('Test Processing Error'))
 
-      const sqs = new Consumer(opts)
+      const sqs = new Receiver(opts)
       sqs.on('error', done)
       sqs.on('processing:error', err => {
         expect(err).to.exist()
@@ -100,7 +100,7 @@ describe('SQS Consumer', () => {
       const opts = _.clone(DEFAULT_OPTS)
       opts.messageReceiver = (message, acknowledge) => acknowledge(message)
 
-      const sqs = new Consumer(opts)
+      const sqs = new Receiver(opts)
       sqs.once('error', done)
       sqs.once('processing:error', done)
       sqs.once('message:processed', message => done())
@@ -132,7 +132,7 @@ describe('SQS Consumer', () => {
       opts.bufferTimeout = 1000
       opts.messageReceiver = (message, acknowledge) => acknowledge(message)
 
-      const sqs = new Consumer(opts)
+      const sqs = new Receiver(opts)
       sqs.once('error', done)
       sqs.once('processing:error', done)
       sqs.once('message:processed', message => done())
@@ -175,7 +175,7 @@ describe('SQS Consumer', () => {
       opts.batchSize = 10
       opts.messageReceiver = (message, acknowledge) => acknowledge(message)
 
-      const sqs = new Consumer(opts)
+      const sqs = new Receiver(opts)
       sqs.once('error', done)
       sqs.once('message:received', messages => {
         expect(messages).to.exist()
@@ -223,7 +223,7 @@ describe('SQS Consumer', () => {
       opts.bufferTimeout = 1000
       opts.messageReceiver = (message, acknowledge) => acknowledge(message)
 
-      const sqs = new Consumer(opts)
+      const sqs = new Receiver(opts)
       sqs.once('error', done)
       sqs.once('processing:error', done)
       sqs.once('message:processed', message => done())

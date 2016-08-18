@@ -1,5 +1,5 @@
 'use strict'
 
 module.exports = {
-  Consumer: require('./lib/consumer')
+  Receiver: require('./lib/receiver')
 }
