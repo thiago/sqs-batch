@@ -1,5 +1,5 @@
 {
-  "name": "sqs-batch",
+  "name": "sqs-buffer",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/c8management/sqs-batch.git"
+    "url": "git+https://github.com/c8management/sqs-buffer.git"
   },
   "author": "C8Management",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/c8management/sqs-batch/issues"
+    "url": "https://github.com/c8management/sqs-buffer/issues"
   },
-  "homepage": "https://github.com/c8management/sqs-batch#readme",
+  "homepage": "https://github.com/c8management/sqs-buffer#readme",
   "dependencies": {
     "aws-sdk": "^2.5.0",
     "create-error": "^0.3.1",
