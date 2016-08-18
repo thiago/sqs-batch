@@ -63,15 +63,15 @@ Creates a new SQS receiver instance
 - `queueUrl` - _String_ - *REQUIRED* - SQS queue URL
 - `messageReceiver` - _Function_ - *REQUIRED* - A callback function to be called when a message is received or the buffer is flushed. (`messageReceiver(messages, done)`).
 - `batchSize` - _Number_ - (default `1`) - The number of messages to poll from SQS. Max. `10`.
-- `waitTimeSeconds` - _Number_ - 
-- `visibilityTimeout` - _Number_ -
-- `attributeNames` - _Array_ -
-- `messageAttributeNames` - _Array_ - 
-- `authenticationErrorTimeout` - _Number_ - 
-- `bufferSize` - _Number_ - 
-- `bufferTimeout` - _Number_ -
-- `sqs` - _Object_ -
-- `buffer` - _Object_ -
+- `waitTimeSeconds` - _Number_ - The duration (in seconds) for which the call will wait for a message to arrive in the queue before returning (reference)[http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SQS.html#receiveMessage-property].
+- `visibilityTimeout` - _Number_ - The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request (reference)[http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SQS.html#receiveMessage-property].
+- `attributeNames` - _Array_ - A list of attributes that need to be returned along with each message (reference)[http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SQS.html#receiveMessage-property].
+- `messageAttributeNames` - _Array_ - A list of message attributes to include in the response (reference)[http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SQS.html#receiveMessage-property].
+- `authenticationErrorTimeout` - _Number_ - (default `10000`) - The duration (in milliseconds) to wait before making another request after an authentication error. 
+- `bufferSize` - _Number_ - The number of messages to be placed in buffer before processing. Should be greater than `batchSize`.
+- `bufferTimeout` - _Number_ - The duration (in milliseconds) to wait before the buffer is flushed.
+- `sqs` - _Object_ - An `AWS.SQS` instance in case you want to configure it's options manually.
+- `buffer` - _Object_ - (default `memory`) - A class instance used to store the buffer into. More info (bellow)[#buffer] 
  
 ### `receiver.start()`
 Start message polling
@@ -88,3 +88,71 @@ Stop message polling
 |`processing:error`|`err`|...|
 |`message:processed`|`message`|...|
 |`stopped`|None|...|
+
+
+## Buffer
+The buffer is used to temporarily store SQS messages in order to be later processed in batches larger than the Amazon's `10` messages per batch limit. 
+The buffer fires a `flush` event wich is then captured by the `Receiver` and then proxied to the `messageReceiver(messages, done)` callback.
+The `flush` event is fired either on `bufferTimeout` or `bufferSize` reached.
+
+### API
+
+#### `new Buffer(options)`
+Creates a new buffer instance
+
+#### options
+- `bufferSize` - _Number_ - Buffer size.
+- `bufferTimeout` - _Number_ - The duration (in milliseconds) after which the buffer will flush.
+
+#### `Buffer.add(messages)`
+- `messages` - _*|*[]_ - The data type of each item is constrained by Amazon SQS. It can be a single item or an array of items.
+
+#### Events
+|Event|Params|Description|
+|-----|------|-----------|
+|`flush`|`messages`|Fired with either `bufferSize` is full or `bufferTimeout` reached.|
+
+## Custom Buffer
+In order to use your own custom buffer (redis, mongo etc.) you would need to implement two things:
+1. Have a `Buffer.add(messages)` method that stores messages into the buffer
+2. Fire a `flush` event when the buffer is full or timer completed.
+
+*Your custom buffer*
+```js
+class MyBuffer extends EventEmitter {
+    constructor (options) {
+        super()
+        // constructor
+        
+        this.buffer = []
+    }
+    
+    add (messages) {
+        // add messages into this.buffer
+        
+        // on bufferSize reached
+        this.emit('flush', this.buffer)
+        
+        // on bufferTimeout
+        this.emit('flush', this.buffer)
+    }
+}
+```
+
+```js
+const worker = new Receiver({
+  queueUrl: '...',
+  buffer: new MyBuffer(options),
+  messageReceiver: (messages, done) => {
+    // will be called once buffer is filled or timed out.
+    done(messages)
+  }
+})
+
+worker.start()
+```
+
+## Licence
+
+MIT Licence
+© Copyright 2016 C8 MANAGEMENT LIMITED
