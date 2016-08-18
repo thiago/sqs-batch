@@ -85,12 +85,12 @@ describe('SQS Receiver', () => {
       opts.messageReceiver = (message, acknowledge) => acknowledge(new Error('Test Processing Error'))
 
       const sqs = new Receiver(opts)
-      sqs.on('error', done)
-      sqs.on('processing:error', err => {
+      sqs.once('error', done)
+      sqs.once('processing:error', err => {
         expect(err).to.exist()
         done()
       })
-      sqs.on('message:processed', message => done())
+      sqs.once('message:processed', message => done())
       sqs.start()
     })
 
