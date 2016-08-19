@@ -1,7 +1,7 @@
 {
   "name": "sqs-buffer",
   "version": "0.0.1",
-  "description": "",
+  "description": "A wrapper on top of AWS SQS (Amazon Simple Queue Service) including a memory buffer for batch message processing",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
@@ -16,6 +16,14 @@
     "url": "https://github.com/c8management/sqs-buffer/issues"
   },
   "homepage": "https://github.com/c8management/sqs-buffer#readme",
+  "keywords": [
+    "aws",
+    "sqs",
+    "queue",
+    "batch",
+    "buffered queue",
+    "sqs receiver"
+  ],
   "dependencies": {
     "aws-sdk": "^2.5.0",
     "create-error": "^0.3.1",
