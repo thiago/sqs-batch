@@ -38,3 +38,6 @@ jspm_packages
 
 # ENV variables
 .env
+
+# Temp directory
+tmp
