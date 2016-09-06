@@ -1,4 +1,4 @@
-# sqs-buffer
+# sqs-batch
 
 An AWS.SQS wrapper that let's you build queue-based applications easier. It has a built-in memory buffer to extend the *10* batch limit.
    
