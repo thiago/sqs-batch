@@ -1,5 +1,5 @@
 {
-  "name": "@c8/sqs-batch",
+  "name": "sqs-batch",
   "version": "0.0.1",
   "description": "A wrapper on top of AWS SQS (Amazon Simple Queue Service) including a memory buffer for batch message processing",
   "main": "index.js",
