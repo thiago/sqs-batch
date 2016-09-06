@@ -1,5 +1,5 @@
 {
-  "name": "@c8/sqs-buffer",
+  "name": "@c8/sqs-batch",
   "version": "0.0.1",
   "description": "A wrapper on top of AWS SQS (Amazon Simple Queue Service) including a memory buffer for batch message processing",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/c8management/sqs-buffer.git"
+    "url": "git+https://github.com/c8management/sqs-batch.git"
   },
   "author": "C8Management",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/c8management/sqs-buffer/issues"
+    "url": "https://github.com/c8management/sqs-batch/issues"
   },
-  "homepage": "https://github.com/c8management/sqs-buffer#readme",
+  "homepage": "https://github.com/c8management/sqs-batch#readme",
   "keywords": [
     "aws",
     "sqs",
